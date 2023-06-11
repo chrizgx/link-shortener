@@ -1,0 +1,68 @@
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+}
+
+/* .form-signin .form-floating:focus-within {
+  z-index: 2;
+} */
+
+.form-signin input[type="text"] {
+  margin-top: 70px;
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+h1 {
+    font-family: serif;
+}
+
+.form-control {
+    height: 10px;;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--bs-primary) !important;
+}
+
+a.dark:hover {
+  color: var(--bs-dark) !important;
+}
+
+/* Remove focus box-shadow */
+input:hover,
+input:active,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+    outline: 0px !important;
+    box-shadow: none !important;
+    border-color: #ced4da !important;
+}

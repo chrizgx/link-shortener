@@ -1,0 +1,18 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "USER=\"postgres\" PASSWORD=\"postgres\" HOST=\"localhost\" DB=\"links\" DB_PORT=5432 SECRET=\"jkljkl\" nodemon app.js"
+  },
+  "author": "Chris Georgoulis",
+  "license": "ISC",
+  "dependencies": {
+    "connect-pg-simple": "^9.0.0",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "pg": "^8.11.0"
+  }
+}
