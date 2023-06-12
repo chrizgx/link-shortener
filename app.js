@@ -3,6 +3,8 @@ const session = require('express-session');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -57,6 +59,26 @@ app.get('/:key', async (req, res, next) => {
     
     res.redirect(link.url);
 });
+
+app.get('/safe/:key', async (req, res, next) => {
+    const key = req.params.key;
+    if (key == "app" || key == "404") {
+        return next();
+    }
+
+    const link = await appDB.getLinkDetails(key);
+
+    if (link == null) {
+        return res.redirect('/404');
+    } 
+
+    res.render('pages/intersitial', {
+        key: key,
+        url: link.url,
+        description: link.description,
+        intersitial: link.intersitial,
+    });
+})
 
 const sessionRouter = require("./routers/session");
 app.use('/app', sessionRouter);
