@@ -18,7 +18,7 @@ const getLinkDetails = async (key) => {
 const createLink = async (userId, key, description, url, intersitial) => {
     try {
         const results = await pool.query(
-            'INSERT INTO links(user_id, name, description, url, intersitial) VALUES ($1, $2, $3, $4, $5) RETURNING *;',
+            'INSERT INTO links(user_id, key, description, url, intersitial) VALUES ($1, $2, $3, $4, $5) RETURNING *;',
             [userId, key, description, url, intersitial]
         );
 
@@ -43,14 +43,28 @@ const linkIsAvailable = async (key) => {
     }
 }
 
-const deleteLink = async (userId, key) => {
+const deleteLink = async (userId, id) => {
     try {
         const results = await pool.query(
-            'DELETE FROM links WHERE user_id = $1 AND key = $2;',
-            [userId, key]
+            'DELETE FROM links WHERE user_id = $1 AND id = $2;',
+            [userId, id]
         );
 
         return results.rowCount == 1;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
+const getUserLinks = async (userId) => {
+    try {
+        const results = await pool.query(
+            'SELECT * FROM links WHERE user_id = $1;',
+            [userId]
+        );
+
+        return results.rowCount != 0 ? results.rows : null;
     } catch (e) {
         console.error(e);
         return false;
@@ -61,5 +75,6 @@ module.exports = {
     getLinkDetails,
     createLink,
     linkIsAvailable,
-    deleteLink
+    deleteLink,
+    getUserLinks
 }

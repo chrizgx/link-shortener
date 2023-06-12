@@ -4,7 +4,7 @@ const userManagement = require("../database/userManagement");
 
 router.validateCookie = async (req, res, next) => {
     try {
-        if (req.sessionID && req.session.user && await userManagement.validateActiveUser(req.session.user) == 1) return next();
+        if (req.sessionID && req.session.user) return next();
         return res.redirect('/logout');
     } catch (e) {
         console.error(e);

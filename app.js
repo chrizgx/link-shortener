@@ -33,14 +33,13 @@ app.use(
 // Serve public files from 'assets' folder
 app.use('/assets', express.static('./assets'));
 
-app.get('/test', async (req, res) => {
-    console.log("NEW REQUEST");
-    res.json({"message": "welcome"});
+app.get('/', async (req, res) => {
+    res.redirect('/app');
 });
 
 const appDB = require("./database/links");
 
-app.get('/:key', async (req, res, next) => {
+app.all('/:key', async (req, res, next) => {
     const key = req.params.key;
     
     if (key == "app" || key == "404") {
@@ -50,7 +49,8 @@ app.get('/:key', async (req, res, next) => {
     const link = await appDB.getLinkDetails(key);
 
     if (link == null) {
-        return res.redirect('/404');
+        // return res.redirect('/404');
+        return next();
     }
 
     if (link.intersitial) {
@@ -60,7 +60,7 @@ app.get('/:key', async (req, res, next) => {
     res.redirect(link.url);
 });
 
-app.get('/safe/:key', async (req, res, next) => {
+app.all('/safe/:key', async (req, res, next) => {
     const key = req.params.key;
     if (key == "app" || key == "404") {
         return next();
@@ -82,6 +82,13 @@ app.get('/safe/:key', async (req, res, next) => {
 
 const sessionRouter = require("./routers/session");
 app.use('/app', sessionRouter);
+
+const appRouter = require("./routers/app");
+app.use('/app', sessionRouter.validateCookie, appRouter);
+
+app.use(async (req, res) => {
+    res.render('pages/404');
+})
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`App is running on port ${process.env.PORT || 3000}`);
